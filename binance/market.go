@@ -14,9 +14,7 @@ import (
 // Get binance server time
 func (b *Binance) GetServerTime() (serverTime ServerTime, err error) {
 
-	reqUrl := fmt.Sprintf("api/v1/time")
-
-	_, err = b.client.do("GET", reqUrl, "", true, &serverTime)
+	_, err = b.client.do("GET", "api/v1/time", "", false, &serverTime)
 	if err != nil {
 		return
 	}
