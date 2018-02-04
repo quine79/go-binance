@@ -8,7 +8,23 @@ package binance
 
 import (
 	"fmt"
+	"time"
 )
+
+// Get binance server time
+func (b *Binance) GetServerTime() (serverTime ServerTime, err error) {
+
+	reqUrl := fmt.Sprintf("api/v1/time")
+
+	_, err = b.client.do("GET", reqUrl, "", true, &serverTime)
+	if err != nil {
+		return
+	}
+
+	b.client.timeOffset = serverTime.ServerTime - (time.Now().Unix() * 1000)
+
+	return
+}
 
 // Get order book
 func (b *Binance) GetOrderBook(q OrderBookQuery) (book OrderBook, err error) {

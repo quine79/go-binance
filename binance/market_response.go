@@ -12,6 +12,11 @@ import (
 	"strconv"
 )
 
+// Result from: GET /api/v1/time
+type ServerTime struct {
+	ServerTime int64 `json:"serverTime"`
+}
+
 // Result from: GET /api/v1/depth
 type OrderBook struct {
 	LastUpdatedId int64   `json:"lastUpdatedId"`
