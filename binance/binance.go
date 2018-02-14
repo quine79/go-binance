@@ -35,3 +35,7 @@ func New(key, secret string) *Binance {
 	client := NewClient(key, secret)
 	return &Binance{client}
 }
+
+func (b *Binance) Offset() int64 {
+	return b.client.timeOffset
+}
