@@ -55,7 +55,8 @@ func (b *Binance) PlaceLimitOrder(l LimitOrder) (res PlacedOrder, err error) {
 		return
 	}
 
-	reqUrl := fmt.Sprintf("api/v3/order?symbol=%s&side=%s&type=%s&timeInForce=%s&quantity=%f&price=%.10f&recvWindow=%d", l.Symbol, l.Side, l.Type, l.TimeInForce, l.Quantity, l.Price, l.RecvWindow)
+	fmtString := fmt.Sprintf("api/v3/order?symbol=%%s&side=%%s&type=%%s&timeInForce=%%s&quantity=%%.%df&price=%%.%df&recvWindow=%%d", l.QuantityPrecision, l.PricePrecision)
+	reqUrl := fmt.Sprintf(fmtString, l.Symbol, l.Side, l.Type, l.TimeInForce, l.Quantity, l.Price, l.RecvWindow)
 
 	_, err = b.client.do("POST", reqUrl, "", true, &res)
 	if err != nil {
