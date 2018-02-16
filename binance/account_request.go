@@ -36,7 +36,7 @@ func (l *LimitOrder) ValidateLimitOrder() error {
 		return errors.New("Invalid or empty order timeInForce")
 	case l.Quantity <= 0.0:
 		return errors.New("Invalid or empty order quantity")
-	case l.QuantityPrecision <= 0:
+	case l.QuantityPrecision < 0:
 		return errors.New("Invalid quantity precision")
 	case l.Price <= 0.0:
 		return errors.New("Invalid or empty order price")
