@@ -73,7 +73,7 @@ func (c *Client) do(method, resource, payload string, auth bool, result interfac
 
 		q := req.URL.Query()
 
-		timestamp := (time.Now().Unix() * 1000) + c.timeOffset
+		timestamp := (time.Now().UTC().UnixNano() / 1000000) + c.timeOffset
 		q.Set("timestamp", fmt.Sprintf("%d", timestamp))
 
 		mac := hmac.New(sha256.New, []byte(c.secret))
