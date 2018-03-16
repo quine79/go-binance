@@ -18,10 +18,11 @@ import (
 )
 
 type Client struct {
-	key        string
-	secret     string
-	timeOffset int64
-	httpClient *http.Client
+	key                  string
+	secret               string
+	timeOffset           int64
+	additionalTimeOffset int64
+	httpClient           *http.Client
 }
 
 type BadRequest struct {
@@ -42,11 +43,12 @@ func handleError(resp *http.Response) error {
 }
 
 // Creates a new Binance HTTP Client
-func NewClient(key, secret string) (c *Client) {
+func NewClient(key, secret string, additionalTimeOffset int64) (c *Client) {
 	client := &Client{
-		key:        key,
-		secret:     secret,
-		httpClient: &http.Client{},
+		key:                  key,
+		secret:               secret,
+		additionalTimeOffset: additionalTimeOffset,
+		httpClient:           &http.Client{},
 	}
 	return client
 }
@@ -73,7 +75,7 @@ func (c *Client) do(method, resource, payload string, auth bool, result interfac
 
 		q := req.URL.Query()
 
-		timestamp := (time.Now().UTC().UnixNano() / 1000000) + c.timeOffset
+		timestamp := (time.Now().UTC().UnixNano() / 1000000) + c.timeOffset + c.additionalTimeOffset
 		q.Set("timestamp", fmt.Sprintf("%d", timestamp))
 
 		mac := hmac.New(sha256.New, []byte(c.secret))

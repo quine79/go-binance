@@ -31,8 +31,8 @@ func handleErr(r jsonResponse) error {
     return nil
 }
 */
-func New(key, secret string) *Binance {
-	client := NewClient(key, secret)
+func New(key, secret string, additionalTimeOffset int64) *Binance {
+	client := NewClient(key, secret, additionalTimeOffset)
 	return &Binance{client}
 }
 
