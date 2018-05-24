@@ -74,7 +74,8 @@ func (b *Binance) PlaceMarketOrder(m MarketOrder) (res PlacedOrder, err error) {
 		return
 	}
 
-	reqUrl := fmt.Sprintf("api/v3/order?symbol=%s&side=%s&type=%s&quantity=%f&recvWindow=%d", m.Symbol, m.Side, m.Type, m.Quantity, m.RecvWindow)
+	fmtString := fmt.Sprintf("api/v3/order?symbol=%%s&side=%%s&type=%%s&quantity=%%.%df&recvWindow=%%d", m.QuantityPrecision)
+	reqUrl := fmt.Sprintf(fmtString, m.Symbol, m.Side, m.Type, m.Quantity, m.RecvWindow)
 
 	_, err = b.client.do("POST", reqUrl, "", true, &res)
 	if err != nil {

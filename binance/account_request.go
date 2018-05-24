@@ -51,11 +51,12 @@ func (l *LimitOrder) ValidateLimitOrder() error {
 }
 
 type MarketOrder struct {
-	Symbol     string
-	Side       string
-	Type       string
-	Quantity   float64
-	RecvWindow int64
+	Symbol            string
+	Side              string
+	Type              string
+	Quantity          float64
+	QuantityPrecision int
+	RecvWindow        int64
 }
 
 func (m *MarketOrder) ValidateMarketOrder() error {
