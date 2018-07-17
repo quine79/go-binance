@@ -75,6 +75,33 @@ func (m *MarketOrder) ValidateMarketOrder() error {
 	}
 }
 
+type StopLossOrder struct {
+	Symbol             string
+	Side               string
+	Type               string
+	Quantity           float64
+	QuantityPrecision  int
+	StopPrice          float64
+	StopPricePrecision int
+	RecvWindow         int64
+}
+
+func (m *StopLossOrder) ValidateStopLossOrder() error {
+	switch {
+	case len(m.Symbol) == 0:
+		return errors.New("Order must contain a symbol")
+	case !OrderSideEnum[m.Side]:
+		return errors.New("Invalid or empty order side")
+	case m.Quantity <= 0.0:
+		return errors.New("Invalid or empty order quantity")
+	case m.RecvWindow == 0:
+		m.RecvWindow = 5000
+		return nil
+	default:
+		return nil
+	}
+}
+
 // Input for: GET & DELETE /api/v3/order
 type OrderQuery struct {
 	Symbol     string

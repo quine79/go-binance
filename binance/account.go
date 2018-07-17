@@ -85,6 +85,25 @@ func (b *Binance) PlaceMarketOrder(m MarketOrder) (res PlacedOrder, err error) {
 	return
 }
 
+// Place a Stop Loss Order
+func (b *Binance) PlaceStopLossOrder(s StopLossOrder) (res PlacedOrder, err error) {
+
+	err = s.ValidateStopLossOrder()
+	if err != nil {
+		return
+	}
+
+	fmtString := fmt.Sprintf("api/v3/order?symbol=%%s&side=%%s&type=%%s&quantity=%%.%df&stopPrice=%%.%df&recvWindow=%%d", s.QuantityPrecision, s.StopPricePrecision)
+	reqUrl := fmt.Sprintf(fmtString, s.Symbol, s.Side, s.Type, s.Quantity, s.StopPrice, s.RecvWindow)
+
+	_, err = b.client.do("POST", reqUrl, "", true, &res)
+	if err != nil {
+		return
+	}
+
+	return
+}
+
 // Cancel an Order
 func (b *Binance) CancelOrder(query OrderQuery) (order CanceledOrder, err error) {
 
