@@ -85,16 +85,16 @@ func (b *Binance) PlaceMarketOrder(m MarketOrder) (res PlacedOrder, err error) {
 	return
 }
 
-// Place a Stop Loss Order
-func (b *Binance) PlaceStopLossOrder(s StopLossOrder) (res PlacedOrder, err error) {
+// Place a Stop Loss Limit Order
+func (b *Binance) PlaceStopLossLimitOrder(s StopLossOrder) (res PlacedOrder, err error) {
 
 	err = s.ValidateStopLossOrder()
 	if err != nil {
 		return
 	}
 
-	fmtString := fmt.Sprintf("api/v3/order?symbol=%%s&side=%%s&type=%%s&quantity=%%.%df&stopPrice=%%.%df&recvWindow=%%d", s.QuantityPrecision, s.StopPricePrecision)
-	reqUrl := fmt.Sprintf(fmtString, s.Symbol, s.Side, s.Type, s.Quantity, s.StopPrice, s.RecvWindow)
+	fmtString := fmt.Sprintf("api/v3/order?symbol=%%s&side=%%s&type=%%s&timeInForce=%%s&quantity=%%.%df&price=%%.%df&stopPrice=%%.%df&recvWindow=%%d", s.QuantityPrecision, s.PricePrecision, s.PricePrecision)
+	reqUrl := fmt.Sprintf(fmtString, s.Symbol, s.Side, s.Type, s.TimeInForce, s.Quantity, s.Price, s.StopPrice, s.RecvWindow)
 
 	_, err = b.client.do("POST", reqUrl, "", true, &res)
 	if err != nil {

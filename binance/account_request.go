@@ -76,14 +76,16 @@ func (m *MarketOrder) ValidateMarketOrder() error {
 }
 
 type StopLossOrder struct {
-	Symbol             string
-	Side               string
-	Type               string
-	Quantity           float64
-	QuantityPrecision  int
-	StopPrice          float64
-	StopPricePrecision int
-	RecvWindow         int64
+	Symbol            string
+	Side              string
+	Type              string
+	TimeInForce       string
+	Quantity          float64
+	QuantityPrecision int
+	Price             float64
+	StopPrice         float64
+	PricePrecision    int
+	RecvWindow        int64
 }
 
 func (m *StopLossOrder) ValidateStopLossOrder() error {
