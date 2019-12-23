@@ -13,7 +13,7 @@ package binance
 
 //"errors"
 
-const (
+var (
 	BaseUrl = "https://api.binance.com"
 )
 
@@ -31,7 +31,10 @@ func handleErr(r jsonResponse) error {
     return nil
 }
 */
-func New(key, secret string, additionalTimeOffset int64) *Binance {
+func New(server, key, secret string, additionalTimeOffset int64) *Binance {
+	if len(server) > 0 {
+		BaseUrl = "https://" + server
+	}
 	client := NewClient(key, secret, additionalTimeOffset)
 	return &Binance{client}
 }
